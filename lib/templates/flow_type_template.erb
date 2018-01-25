@@ -1,0 +1,5 @@
+type <%= @klass.name %> = {
+  <% @flowtype_def.each_pair do |key, value| %>
+  <%= key %>: <%= value %>,
+  <% end %>
+};

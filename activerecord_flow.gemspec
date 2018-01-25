@@ -1,4 +1,4 @@
-# rubocop:disable Layout/ExtraSpacing, Layout/SpaceAroundOperators
+# coding: utf-8
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
@@ -39,6 +39,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'rubocop'
+  spec.add_development_dependency 'sqlite3'
 end
-
-# rubocop:enable Layout/ExtraSpacing, Layout/SpaceAroundOperators

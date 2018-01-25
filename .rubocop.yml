@@ -2,9 +2,14 @@ AllCops:
   TargetRubyVersion: 2.4
   Exclude:
     - 'bin/*'
+    - 'activerecord_flow.gemspec'
 
 Style/Documentation:
   Enabled: false
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
