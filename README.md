@@ -1,8 +1,8 @@
+[![Build Status](https://travis-ci.org/praveenram/activerecord_flow.svg?branch=master)](https://travis-ci.org/praveenram/activerecord_flow)
+
 # ActiverecordFlow
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/activerecord_flow`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Generate flow types from ActiveRecord models.
 
 ## Installation
 
@@ -22,7 +22,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Available rake tasks in rails projects:
+
+- `flow:generate`: Generates the flow type classes for the current project's activerecord types.
 
 ## Development
 
