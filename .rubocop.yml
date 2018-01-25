@@ -1,0 +1,10 @@
+AllCops:
+  TargetRubyVersion: 2.4
+  Exclude:
+    - 'bin/*'
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
