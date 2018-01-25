@@ -1,9 +1,9 @@
 ActiveRecord::Schema.define do
   self.verbose = false
 
-  create_table :models do |t|
-    t.string :key
-    t.string :value
+  create_table :users do |t|
+    t.string :username
+    t.string :password
 
     t.timestamps
   end

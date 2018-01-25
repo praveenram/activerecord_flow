@@ -5,6 +5,7 @@ require 'active_record'
 ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: ':memory:'
 
 load 'spec/schema.rb'
+require './spec/models.rb'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
