@@ -18,12 +18,23 @@ RSpec.describe ActiverecordFlow::FlowTypeGenerator do
         flow_type_gen = ActiverecordFlow::FlowTypeGenerator.new(User)
 
         expect(flow_type_gen.convert).to eq(
-          'id' => 'number',
+          'id' => '?number',
           'username' => '?string',
           'password' => '?string',
           'created_at' => 'Date',
           'updated_at' => 'Date'
         )
+      end
+
+      context 'primary key is always optional' do
+        it 'returns the flowtype definition' do
+          flow_type_gen = ActiverecordFlow::FlowTypeGenerator.new(Video)
+
+          expect(flow_type_gen.convert).to include(
+            'uuid' => '?number',
+            'title' => '?string'
+          )
+        end
       end
 
       context 'when it has nested associations' do
@@ -32,14 +43,35 @@ RSpec.describe ActiverecordFlow::FlowTypeGenerator do
             flow_type_gen = ActiverecordFlow::FlowTypeGenerator.new(Post)
 
             expect(flow_type_gen.convert).to eq(
-              'id' => 'number',
+              'id' => '?number',
               'content' => '?string',
               'user_id' => 'number',
               'user' => 'User',
               'comments' => 'Array<Comment>',
+              'images' => 'Array<Image>',
               'created_at' => 'Date',
               'updated_at' => 'Date'
             )
+          end
+
+          context 'when it has a different class_name' do
+            it 'returns the flowtype definition' do
+              flow_type_gen = ActiverecordFlow::FlowTypeGenerator.new(Blog)
+
+              expect(flow_type_gen.convert).to include(
+                'entries' => 'Array<Post>'
+              )
+            end
+          end
+
+          context 'when it has many through' do
+            it 'returns the flowtype definition' do
+              flow_type_gen = ActiverecordFlow::FlowTypeGenerator.new(Blog)
+
+              expect(flow_type_gen.convert).to include(
+                'comments' => 'Array<Comment>'
+              )
+            end
           end
         end
 
@@ -47,12 +79,22 @@ RSpec.describe ActiverecordFlow::FlowTypeGenerator do
           it 'returns the flowtype definition' do
             flow_type_gen = ActiverecordFlow::FlowTypeGenerator.new(Image)
 
-            expect(flow_type_gen.convert).to eq(
-              'id' => 'number',
+            expect(flow_type_gen.convert).to include(
+              'id' => '?number',
               'url' => 'Url',
               'created_at' => 'Date',
               'updated_at' => 'Date'
             )
+          end
+
+          context 'when it has one through' do
+            it 'returns the flowtype definition' do
+              flow_type_gen = ActiverecordFlow::FlowTypeGenerator.new(Video)
+
+              expect(flow_type_gen.convert).to include(
+                'thumb_url' => 'Url'
+              )
+            end
           end
         end
 
@@ -61,7 +103,7 @@ RSpec.describe ActiverecordFlow::FlowTypeGenerator do
             flow_type_gen = ActiverecordFlow::FlowTypeGenerator.new(Comment)
 
             expect(flow_type_gen.convert).to eq(
-              'id' => 'number',
+              'id' => '?number',
               'content' => '?string',
               'post_id' => 'number',
               'user_id' => '?number',
@@ -70,6 +112,18 @@ RSpec.describe ActiverecordFlow::FlowTypeGenerator do
               'created_at' => 'Date',
               'updated_at' => 'Date'
             )
+          end
+
+          context 'when it is a polymorphic relation' do
+            it 'returns the flowtype definition' do
+              flow_type_gen = ActiverecordFlow::FlowTypeGenerator.new(Image)
+
+              expect(flow_type_gen.convert).to include(
+                'content_type' => '?string',
+                'content_id' => '?number',
+                'content' => 'Post | Blog'
+              )
+            end
           end
         end
       end

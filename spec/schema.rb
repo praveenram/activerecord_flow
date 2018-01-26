@@ -23,7 +23,12 @@ ActiveRecord::Schema.define do
     t.timestamps
   end
 
-  create_table(:images, &:timestamps)
+  create_table :images do |t|
+    t.string :content_type
+    t.integer :content_id
+
+    t.timestamps
+  end
 
   create_table :urls do |t|
     t.string :value
@@ -31,4 +36,13 @@ ActiveRecord::Schema.define do
 
     t.timestamps
   end
+
+  create_table :videos, id: false do |t|
+    t.primary_key :uuid
+    t.string :title
+
+    t.timestamps
+  end
+
+  create_table(:blogs, &:timestamps)
 end
