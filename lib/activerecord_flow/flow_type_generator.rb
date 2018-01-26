@@ -3,7 +3,12 @@ require 'active_record'
 
 module ActiverecordFlow
   class FlowTypeGenerator
-    def initialize(klass:)
+    OBJECT_ASSOCIATION_TYPES = [
+      'ActiveRecord::Reflection::BelongsToReflection',
+      'ActiveRecord::Reflection::HasOneReflection'
+    ].freeze
+
+    def initialize(klass)
       @klass = klass
       @flowtype_def = {}
     end
@@ -15,6 +20,8 @@ module ActiverecordFlow
 
       map_columns_to_flowtype
       map_associations_to_flowtype
+
+      @flowtype_def
     end
 
     def render
@@ -39,7 +46,7 @@ module ActiverecordFlow
 
         if reflection.is_a?(ActiveRecord::Reflection::HasManyReflection)
           type = "Array<#{association_name.singularize.titleize}>"
-        elsif reflection.is_a?(ActiveRecord::Reflection::BelongsToReflection)
+        elsif OBJECT_ASSOCIATION_TYPES.include?(reflection.class.name)
           type = association_name.titleize
         end
 
